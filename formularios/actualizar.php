@@ -1,6 +1,6 @@
 <?php
 
-require_once('bd_conect.php');
+require 'bd_conect.php';
 try {
     $upd = "UPDATE usuarios set rol=:rol where codigo=:id";
     $stmt = $bd->prepare($upd);
