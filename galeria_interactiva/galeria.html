@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Galería de Imágenes Interactiva</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <h2>Haz clic en una imagen para verla más grande</h2>
+    <div class="galeria">
+        <div class="thumbnails">
+            <img src="gatos/imagen1.jpg" alt="Imagen 1" onclick="cambiarImagen('gatos/imagen1.jpg', 'Gato pelaje corto')">
+            <img src="gatos/imagen2.jpg" alt="Imagen 2" onclick="cambiarImagen('gatos/imagen2.jpg', 'Gato blanco')">
+            <img src="gatos/imagen3.JPG" alt="Imagen 3" onclick="cambiarImagen('gatos/imagen3.JPG', 'Gato azul ruso')">
+            <img src="gatos/imagen4.jpg" alt="Imagen 4" onclick="cambiarImagen('gatos/imagen4.jpg', 'Gato birmano')">
+            <img src="gatos/imagen5.jpg" alt="Imagen 5" onclick="cambiarImagen('gatos/imagen5.jpg', 'Gato persa')">
+            <img src="gatos/imagen6.jpg" alt="Imagen 6" onclick="cambiarImagen('gatos/imagen6.jpg', 'Gato azul ruso')">
+        </div>
+        <div class="preview">
+            <img id="imgPreview" src="gatos/imagen1.jpg" alt="Vista previa de imagen" onclick="abrirEnNuevaVentana()">
+            <p id="imgTitle">Gato pelaje corto</p>
+        </div>
+    </div>
+    <script src="imagen.js"></script>
+</body>
+</html>
