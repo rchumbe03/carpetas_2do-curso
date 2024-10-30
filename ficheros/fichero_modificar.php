@@ -17,7 +17,6 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
     // Archivo modo escritura
     $fich = fopen($fichero, "w");
     if ($fich) {
-        // Sobreescribir el contenido
         fwrite($fich, $nuevoContenido);
         fclose($fich);
         echo "El archivo ha sido actualizado con éxito.<br>";
