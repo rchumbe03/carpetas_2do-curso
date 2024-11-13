@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Gestión de Cookies</title>
+</head>
+<body>
+    <h2>Gestión de Cookies</h2>
+    <form id="cookieForm">
+        <label for="cookieName">Nombre de la cookie:</label>
+        <input type="text" id="cookieName" required><br><br>
+
+        <label for="cookieValue">Valor de la cookie:</label>
+        <input type="text" id="cookieValue"><br><br>
+
+        <label for="cookieDays">Días de vencimiento:</label>
+        <input type="number" id="cookieDays" min="1"><br><br>
+
+        <button type="button" onclick="setCookie()">Agregar/Modificar Cookie</button>
+        <button type="button" onclick="showCookie()">Ver Cookie</button>
+        <button type="button" onclick="deleteCookie()">Borrar Cookie</button>
+    </form>
+    <p id="output"></p>
+
+    <script>
+        function setCookie() {
+            let nombre = document.getElementById('cookieName').value;
+            let valor = document.getElementById('cookieValue').value;
+            let dias = document.getElementById('cookieDays').value || 1; // Default to 1 day
+            let fecha = new Date();
+            fecha.setTime(fecha.getTime() + (dias * 24 * 60 * 60 * 1000));
+            document.cookie = `${nombre}=${valor}; expires=${fecha.toUTCString()}; path=/`;
+            document.getElementById('output').innerText = `Cookie "${nombre}" creada/modificada.`;
+        }
+
+        function showCookie() {
+            let nombre = document.getElementById('cookieName').value;
+            let cookies = document.cookie.split(';');
+            for (let cookie of cookies) {
+                cookie = cookie.trim();
+                if (cookie.startsWith(nombre + '=')) {
+                    document.getElementById('output').innerText = `Valor de la cookie "${nombre}": ${cookie.split('=')[1]}`;
+                    return;
+                }
+            }
+            document.getElementById('output').innerText = `Cookie "${nombre}" no encontrada.`;
+        }
+
+        function deleteCookie() {
+            let nombre = document.getElementById('cookieName').value;
+            document.cookie = `${nombre}=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;`;
+            document.getElementById('output').innerText = `Cookie "${nombre}" borrada.`;
+        }
+    </script>
+</body>
+</html>

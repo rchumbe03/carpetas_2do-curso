@@ -1,54 +1,34 @@
-// Función para crear una cookie
-function crearCookie(nombre, valor, dias) {
+// Función para crear o modificar una cookie
+function setCookie(nombre, valor, dias) {
     let fecha = new Date();
     fecha.setTime(fecha.getTime() + (dias * 24 * 60 * 60 * 1000));
-    let expiracion = "expires=" + fecha.toUTCString();
-    document.cookie = nombre + "=" + valor + ";" + expiracion + ";path=/";
-    console.log(`Cookie "${nombre}" creada.`);
+    document.cookie = `${nombre}=${valor}; expires=${fecha.toUTCString()}; path=/`;
 }
 
-// Función para ver una cookie
-function verCookie(nombre) {
-    let nombreEQ = nombre + "=";
-    let cookies = document.cookie.split(';');
-    for (let i = 0; i < cookies.length; i++) {
-        let cookie = cookies[i].trim();
-        if (cookie.indexOf(nombreEQ) === 0) {
-            return cookie.substring(nombreEQ.length);
+// Función para obtener el valor de una cookie
+function getCookie(nombre) {
+    let cookieArr = document.cookie.split(';');
+    for (let cookie of cookieArr) {
+        cookie = cookie.trim();
+        if (cookie.startsWith(nombre + '=')) {
+            return cookie.split('=')[1];
         }
     }
     return `Cookie "${nombre}" no encontrada.`;
 }
 
-// Función para modificar una cookie
-function modificarCookie(nombre, nuevoValor, dias) {
-    if (verCookie(nombre) !== `Cookie "${nombre}" no encontrada.`) {
-        crearCookie(nombre, nuevoValor, dias);
-        console.log(`Cookie "${nombre}" modificada.`);
-    } else {
-        console.log(`Cookie "${nombre}" no existe y no puede ser modificada.`);
-    }
-}
-
 // Función para borrar una cookie
-function borrarCookie(nombre) {
-    if (verCookie(nombre) !== `Cookie "${nombre}" no encontrada.`) {
-        document.cookie = nombre + "=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;";
-        console.log(`Cookie "${nombre}" borrada.`);
-    } else {
-        console.log(`Cookie "${nombre}" no existe y no puede ser borrada.`);
-    }
+function deleteCookie(nombre) {
+    setCookie(nombre, '', -1);
+    console.log(`Cookie "${nombre}" borrada.`);
 }
 
 // Pruebas de funcionalidad
-// Crear una cookie con un tiempo de vencimiento de 1 día
-crearCookie('usuario', 'Juan', 1);
-console.log(verCookie('usuario')); // Debe mostrar el valor de la cookie "Juan"
+setCookie('usuario', 'Juan', 1);
+console.log(getCookie('usuario')); // Debe mostrar "Juan"
 
-// Modificar el valor de la cookie
-modificarCookie('usuario', 'Pedro', 1);
-console.log(verCookie('usuario')); // Debe mostrar el nuevo valor "Pedro"
+setCookie('usuario', 'Pedro', 1);
+console.log(getCookie('usuario')); // Debe mostrar "Pedro"
 
-// Borrar la cookie
-borrarCookie('usuario');
-console.log(verCookie('usuario')); // Debe indicar que la cookie no se encontró
+deleteCookie('usuario');
+console.log(getCookie('usuario')); // Debe indicar que la cookie no se encontró
