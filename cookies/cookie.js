@@ -25,10 +25,10 @@ function deleteCookie(nombre) {
 
 // Pruebas de funcionalidad
 setCookie('usuario', 'Juan', 1);
-console.log(getCookie('usuario')); // Debe mostrar "Juan"
+console.log(getCookie('usuario'));
 
 setCookie('usuario', 'Pedro', 1);
-console.log(getCookie('usuario')); // Debe mostrar "Pedro"
+console.log(getCookie('usuario')); 
 
 deleteCookie('usuario');
-console.log(getCookie('usuario')); // Debe indicar que la cookie no se encontró
+console.log(getCookie('usuario')); 

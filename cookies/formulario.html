@@ -28,7 +28,7 @@
         function setCookie() {
             let nombre = document.getElementById('cookieName').value;
             let valor = document.getElementById('cookieValue').value;
-            let dias = document.getElementById('cookieDays').value || 1; // Default to 1 day
+            let dias = document.getElementById('cookieDays').value || 1; 
             let fecha = new Date();
             fecha.setTime(fecha.getTime() + (dias * 24 * 60 * 60 * 1000));
             document.cookie = `${nombre}=${valor}; expires=${fecha.toUTCString()}; path=/`;
