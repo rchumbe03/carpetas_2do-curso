@@ -1,94 +1,65 @@
-document.getElementById("registrationForm").addEventListener("submit", function(event) {
+document.getElementById("registroForm").addEventListener("submit", function (event) {
     event.preventDefault();
-    let valid = true;
-    
-    // Validación Nombre Completo
-    const nombre = document.getElementById("nombre");
-    const errorNombre = document.getElementById("errorNombre");
-    if (!/^[a-zA-Z\s]{3,}$/.test(nombre.value)) {
-        valid = false;
-        nombre.classList.add("error");
-        errorNombre.style.display = "block";
-    } else {
-        nombre.classList.remove("error");
-        errorNombre.style.display = "none";
-    }
-
-    // Validación Correo Electrónico
-    const correo = document.getElementById("correo");
-    const errorCorreo = document.getElementById("errorCorreo");
-    const correoPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-    if (!correoPattern.test(correo.value)) {
-        valid = false;
-        correo.classList.add("error");
-        errorCorreo.style.display = "block";
-    } else {
-        correo.classList.remove("error");
-        errorCorreo.style.display = "none";
-    }
-
-    // Validación Contraseña
-    const contrasena = document.getElementById("contrasena");
-    const errorContrasena = document.getElementById("errorContrasena");
-    const contrasenaPattern = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@#$%^&+=!]).{8,}$/;
-    if (!contrasenaPattern.test(contrasena.value)) {
-        valid = false;
-        contrasena.classList.add("error");
-        errorContrasena.style.display = "block";
-    } else {
-        contrasena.classList.remove("error");
-        errorContrasena.style.display = "none";
-    }
-
-    // Validación Confirmación de Contraseña
-    const confirmacionContrasena = document.getElementById("confirmacionContrasena");
-    const errorConfirmacion = document.getElementById("errorConfirmacion");
-    if (contrasena.value !== confirmacionContrasena.value) {
-        valid = false;
-        confirmacionContrasena.classList.add("error");
-        errorConfirmacion.style.display = "block";
-    } else {
-        confirmacionContrasena.classList.remove("error");
-        errorConfirmacion.style.display = "none";
-    }
-
-    // Validación Teléfono
-    const telefono = document.getElementById("telefono");
-    const errorTelefono = document.getElementById("errorTelefono");
-    if (!/^\d{10,15}$/.test(telefono.value)) {
-        valid = false;
-        telefono.classList.add("error");
-        errorTelefono.style.display = "block";
-    } else {
-        telefono.classList.remove("error");
-        errorTelefono.style.display = "none";
-    }
-
-    // Validación Edad
-    const edad = document.getElementById("edad");
-    const errorEdad = document.getElementById("errorEdad");
-    if (edad.value < 18) {
-        valid = false;
-        edad.classList.add("error");
-        errorEdad.style.display = "block";
-    } else {
-        edad.classList.remove("error");
-        errorEdad.style.display = "none";
-    }
-
-    // Validación Términos y Condiciones
-    const terminos = document.getElementById("terminos");
-    const errorTerminos = document.getElementById("errorTerminos");
-    if (!terminos.checked) {
-        valid = false;
-        errorTerminos.style.display = "block";
-    } else {
-        errorTerminos.style.display = "none";
-    }
-
-    if (valid) {
-        alert("Formulario enviado con éxito.");
-        // Aquí puedes enviar el formulario, como al servidor
-        document.getElementById("registrationForm").submit();
+    if (validarFormulario()) {
+        alert("Formulario enviado correctamente.");
     }
 });
+
+function validarFormulario() {
+    let esValido = true;
+
+    esValido &= validarCampo("nombre", /^[a-zA-Z\s]{3,}$/, "El nombre completo es obligatorio y debe contener solo letras y al menos 3 caracteres.");
+    esValido &= validarCampo("email", /^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$/, "Introduzca un correo electrónico válido.");
+    esValido &= validarCampo("password", /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/, "La contraseña debe tener al menos 8 caracteres, una mayúscula, una minúscula, un número y un carácter especial.");
+    esValido &= validarConfirmacion("confirmPassword", "password", "La confirmación de contraseña no coincide.");
+    esValido &= validarCampo("telefono", /^\d{10,15}$/, "El número de teléfono debe tener entre 10 y 15 dígitos.");
+    esValido &= validarCampo("edad", /^(1[89]|[2-9]\d)$/, "Debes ser mayor de 18 años para registrarte.");
+    esValido &= validarCheckbox("terminos", "Debes aceptar los términos y condiciones para registrarte.");
+
+    return Boolean(esValido);
+}
+
+function validarCampo(id, regex, mensajeError) {
+    const campo = document.getElementById(id);
+    const error = document.getElementById(id + "Error");
+    if (!regex.test(campo.value)) {
+        mostrarError(campo, error, mensajeError);
+        return false;
+    }
+    ocultarError(campo, error);
+    return true;
+}
+
+function validarConfirmacion(id, idOriginal, mensajeError) {
+    const campo = document.getElementById(id);
+    const campoOriginal = document.getElementById(idOriginal);
+    const error = document.getElementById(id + "Error");
+    if (campo.value !== campoOriginal.value) {
+        mostrarError(campo, error, mensajeError);
+        return false;
+    }
+    ocultarError(campo, error);
+    return true;
+}
+
+function validarCheckbox(id, mensajeError) {
+    const campo = document.getElementById(id);
+    const error = document.getElementById(id + "Error");
+    if (!campo.checked) {
+        mostrarError(campo, error, mensajeError);
+        return false;
+    }
+    ocultarError(campo, error);
+    return true;
+}
+
+function mostrarError(campo, error, mensaje) {
+    campo.classList.add("error");
+    error.textContent = mensaje;
+    error.style.display = "block";
+}
+
+function ocultarError(campo, error) {
+    campo.classList.remove("error");
+    error.style.display = "none";
+}
