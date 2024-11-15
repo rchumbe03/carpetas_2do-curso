@@ -1,0 +1,19 @@
+body {
+    font-family: Arial, sans-serif;
+    margin: 20px;
+}
+.noticia {
+    background-color: #f4f4f4;
+    padding: 15px;
+    margin-bottom: 10px;
+    border-radius: 5px;
+    box-shadow: 0 0 5px rgba(0, 0, 0, 0.1);
+}
+.titulo {
+    font-size: 20px;
+    font-weight: bold;
+}
+.categoria {
+    color: #666;
+    font-size: 14px;
+}
