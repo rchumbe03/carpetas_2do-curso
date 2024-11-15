@@ -1,5 +1,5 @@
 <?php
-// Incluir el archivo de conexión
+
 include 'conexion.php';
 ?>
 
@@ -12,7 +12,37 @@ include 'conexion.php';
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
-    <h1>Lista de Noticias</h1>
+    <header class="header">
+        <div class="container">
+            <!-- Barra de búsqueda -->
+            <form class="search-bar" method="GET" action="noticias.php">
+                <input type="text" name="search" placeholder="Buscar...">
+            </form>
+
+            <!-- Logo -->
+            <a href="noticias.php">
+                <div class="logo">
+                    <img src="logo.png" alt="Logo">
+                </div>
+            </a>
+
+            <!-- Iconos -->
+            <div class="icons">
+                <div class="icon">
+                    <img src="icon1.png" alt="Icono 1">
+                </div>
+                <div class="icon">
+                    <img src="icon2.png" alt="Icono 2">
+                </div>
+                <div class="icon">
+                    <img src="icon3.png" alt="Icono 3">
+                </div>
+                <div class="icon">
+                    <img src="icon4.png" alt="Icono 4">
+                </div>
+            </div>
+        </div>
+    </header>
 
     <?php
     if ($result->num_rows > 0) {
@@ -27,7 +57,6 @@ include 'conexion.php';
         echo "<p>No se encontraron noticias.</p>";
     }
 
-    // Cerrar conexión
     $conn->close();
     ?>
 </body>
