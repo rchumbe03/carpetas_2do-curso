@@ -1,5 +1,4 @@
 <?php
-
 include 'conexion.php';
 ?>
 
@@ -22,23 +21,23 @@ include 'conexion.php';
             <!-- Logo -->
             <a href="noticias.php">
                 <div class="logo">
-                    <img src="logo.png" alt="Logo">
+                    <img src="img/logo.png" alt="logo">
                 </div>
             </a>
 
             <!-- Iconos -->
             <div class="icons">
                 <div class="icon">
-                    <img src="icon1.png" alt="Icono 1">
+                    <img src="img/icons/icon1.png" alt="Icono 1">
                 </div>
                 <div class="icon">
-                    <img src="icon2.png" alt="Icono 2">
+                    <img src="img/icons/icon2.png" alt="Icono 2">
                 </div>
                 <div class="icon">
-                    <img src="icon3.png" alt="Icono 3">
+                    <img src="img/icons/icon3.png" alt="Icono 3">
                 </div>
                 <div class="icon">
-                    <img src="icon4.png" alt="Icono 4">
+                    <img src="img/icons/icon4.png" alt="Icono 4">
                 </div>
             </div>
         </div>

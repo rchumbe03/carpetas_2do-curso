@@ -33,4 +33,3 @@ if ($search_query !== "") {
     $sql .= " WHERE n.Titulo LIKE '%$search_query%'";
 }
 $result = $conn->query($sql);
-?>
