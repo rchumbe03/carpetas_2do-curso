@@ -1,20 +1,23 @@
 <?php
-// Incluir el archivo de conexión
 include 'conexion.php';
 
-// Consulta para obtener las 6 categorías de la tabla Tnoticia
+// Verifica si la conexión se ha realizado correctamente
+if ($conn->connect_error) {
+    die("Error en la conexión: " . $conn->connect_error);
+}
+
 $sql = "SELECT categoria FROM Tnoticia LIMIT 6";
 $result = $conn->query($sql);
 
-// Arreglo para almacenar las categorías
 $categorias = [];
 
 if ($result->num_rows > 0) {
     while ($row = $result->fetch_assoc()) {
         $categorias[] = $row['categoria'];
     }
+} else {
+    echo "No se encontraron categorías.";
 }
 
-// Cerrar conexión
 $conn->close();
 ?>
