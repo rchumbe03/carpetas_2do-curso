@@ -14,12 +14,12 @@ include 'conexion.php';
     <header class="header">
         <div class="container">
             <!-- Barra de búsqueda -->
-            <form class="search-bar" method="GET" action="noticias.php">
+            <form class="search-bar" method="GET" action="formulario.php">
                 <input type="text" name="search" placeholder="Buscar...">
             </form>
 
             <!-- Logo -->
-            <a href="noticias.php">
+            <a href="formulario.php">
                 <div>
                     <img src="img/logo.png" alt="logo">
                 </div>
@@ -45,13 +45,12 @@ include 'conexion.php';
     
     <?php include 'categorias.php'; ?>
 
+    <!-- Contenedor de categorías -->
     <div class="contenedor-categorias">
         <div class="cuadro-categorias">
             <?php
-            if (!empty($categorias)) {
-                foreach ($categorias as $categoria) {
-                    echo "<span class='categoria-texto'>" . htmlspecialchars($categoria) . "</span>";
-                }
+            foreach ($categorias as $categoria) {
+                echo "<a href='formulario.php?categoria=" . urlencode($categoria) . "' class='categoria-texto'>" . htmlspecialchars($categoria) . "</a>";
             }
             ?>
         </div>
@@ -61,8 +60,7 @@ include 'conexion.php';
 
     <?php
     if ($result->num_rows > 0) {
-        // Mostrar cada fila de resultados
-        while($row = $result->fetch_assoc()) {
+        while ($row = $result->fetch_assoc()) {
             echo "<div class='noticia'>";
             echo "<div class='titulo'>" . htmlspecialchars($row['Titulo']) . "</div>";
             echo "<div class='categoria'>Categoría: " . htmlspecialchars($row['categoria']) . "</div>";
