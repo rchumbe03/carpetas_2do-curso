@@ -20,7 +20,7 @@ include 'conexion.php';
 
             <!-- Logo -->
             <a href="noticias.php">
-                <div class="logo">
+                <div>
                     <img src="img/logo.png" alt="logo">
                 </div>
             </a>
@@ -42,6 +42,18 @@ include 'conexion.php';
             </div>
         </div>
     </header>
+    
+    <?php include 'categorias.php'; ?>
+
+    <div class="contenedor-categorias">
+        <div class="cuadro-categorias">
+            <?php
+            foreach ($categorias as $categoria) {
+                echo "<span class='categoria-texto'>" . htmlspecialchars($categoria) . "</span>";
+            }
+            ?>
+        </div>
+    </div>
 
     <?php
     if ($result->num_rows > 0) {
@@ -55,8 +67,6 @@ include 'conexion.php';
     } else {
         echo "<p>No se encontraron noticias.</p>";
     }
-
-    $conn->close();
     ?>
 </body>
 </html>
