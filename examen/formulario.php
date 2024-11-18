@@ -61,10 +61,12 @@ include 'conexion.php';
     <?php
     if ($result->num_rows > 0) {
         while ($row = $result->fetch_assoc()) {
+            echo "<a href='detalle_noticia.php?noticia_id=" . $row['noticia_id'] . "' class='enlace-noticia'>";
             echo "<div class='noticia'>";
             echo "<div class='titulo'>" . htmlspecialchars($row['Titulo']) . "</div>";
             echo "<div class='categoria'>Categoría: " . htmlspecialchars($row['categoria']) . "</div>";
             echo "</div>";
+            echo "</a>";
         }
     } else {
         echo "<p>No se encontraron noticias.</p>";

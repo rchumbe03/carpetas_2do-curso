@@ -18,8 +18,7 @@ if (isset($_GET['categoria'])) {
     $filter_categoria = $conn->real_escape_string($_GET['categoria']);
 }
 
-// Construir la consulta SQL
-$sql = "SELECT n.Titulo, t.categoria 
+$sql = "SELECT n.noticia_id, n.Titulo, t.categoria 
         FROM Noticia n 
         JOIN Tnoticia t ON n.id_tnoticia = t.id_tnoticia";
 
