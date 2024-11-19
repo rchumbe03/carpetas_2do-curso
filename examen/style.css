@@ -2,16 +2,15 @@ body {
     font-family: Arial, sans-serif;
     margin: 0;
     padding: 0;
+    background-color: #f4f4f4;
 }
 .noticia {
-    background-color: #f4f4f4;
+    background-color: #fff;
     padding: 15px;
     margin-bottom: 10px;
     border-radius: 5px;
     box-shadow: 0 0 5px rgba(0, 0, 0, 0.1);
     margin: 20px;
-    text-decoration: none;
-    color: inherit;
 }
 .enlace-noticia {
     text-decoration: none;
@@ -24,8 +23,6 @@ body {
 .categoria {
     color: #666;
     font-size: 14px;
-    text-decoration: none;
-    color: inherit;
 }
 .header {
     height: 64px;
@@ -64,6 +61,7 @@ body {
     height: 40px;
 }
 .contenedor-categorias {
+    background-color: #fff;
     height: 32px;
     display: flex;
     justify-content: center;
