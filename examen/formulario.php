@@ -1,5 +1,7 @@
 <?php
 include 'conexion.php';
+include 'cookie.php'; // Generar una nueva cookie
+include 'noticias.php'; // Mostrar noticias
 ?>
 
 <!DOCTYPE html>
