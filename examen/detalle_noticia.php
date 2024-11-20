@@ -21,5 +21,9 @@ if (isset($_GET['noticia_id'])) {
 } else {
     echo "<p>ID de noticia no proporcionado.</p>";
 }
+
+if (isset($_GET['id_tnoticia'])) {
+    include 'cookie.php'; // Registra la cookie al entrar a la noticia
+}
 ?>
 

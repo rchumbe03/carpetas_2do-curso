@@ -1,7 +1,7 @@
 <?php
 include 'conexion.php';
-include 'cookie.php'; // Generar una nueva cookie
-include 'noticias.php'; // Mostrar noticias
+include 'cookie.php';
+include 'noticias.php';
 ?>
 
 <!DOCTYPE html>
@@ -60,10 +60,15 @@ include 'noticias.php'; // Mostrar noticias
 
     <?php include 'noticias.php'; ?>
 
+    <!-- Mostrar las noticias -->
     <?php
     if ($result->num_rows > 0) {
         while ($row = $result->fetch_assoc()) {
-            echo "<a href='detalle_noticia.php?noticia_id=" . $row['noticia_id'] . "' class='enlace-noticia'>";
+            // Obtener id_tnoticia directamente de la consulta
+            $id_tnoticia = $row['id_tnoticia'];
+
+            // Generar el enlace dinámico para la noticia
+            echo "<a href='detalle_noticia.php?noticia_id=" . $row['noticia_id'] . "&id_tnoticia=" . $id_tnoticia . "' class='enlace-noticia'>";
             echo "<div class='noticia'>";
             echo "<div class='titulo'>" . htmlspecialchars($row['Titulo']) . "</div>";
             echo "<div class='categoria'>Categoría: " . htmlspecialchars($row['categoria']) . "</div>";

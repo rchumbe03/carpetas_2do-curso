@@ -7,7 +7,7 @@ if ($conn->connect_error) {
 }
 
 // Consulta para mostrar las noticias
-$sql = "SELECT n.noticia_id, n.Titulo, t.categoria 
+$sql = "SELECT n.noticia_id, n.Titulo, t.categoria, n.id_tnoticia 
         FROM Noticia n 
         JOIN Tnoticia t ON n.id_tnoticia = t.id_tnoticia";
 

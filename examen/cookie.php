@@ -1,41 +1,46 @@
 <?php
 include 'conexion.php';
 
-// Verificar si ya existe una cookie en el navegador
-if (isset($_COOKIE['user_cookie'])) {
-    // Recuperar la cookie existente
-    $id_cookie = $_COOKIE['user_cookie'];
+// Generar una nueva id_cookie si no existe
+if (!isset($_COOKIE['id_cookie'])) {
+    // Crear un registro en la tabla Cookie y guardar id_cookie en una cookie
+    $sql = "INSERT INTO Cookie (fecha) VALUES (?)";
+    $stmt = $conn->prepare($sql);
+    $fecha_actual = date('Y-m-d'); // Fecha actual
+    $stmt->bind_param("s", $fecha_actual);
 
-    // Comprobar si la cookie existe en la base de datos
-    $sql = "SELECT * FROM Cookie WHERE id_cookie = '$id_cookie'";
-    $result = $conn->query($sql);
-
-    if ($result->num_rows > 0) {
-        // La cookie ya está registrada, no hacemos nada
-        $cookie_data = $result->fetch_assoc();
+    if ($stmt->execute()) {
+        // Recuperar el id_cookie generado
+        $id_cookie = $stmt->insert_id;
+        // Guardar id_cookie en una cookie con duración de 30 días
+        setcookie('id_cookie', $id_cookie, time() + (30 * 24 * 60 * 60), "/");
     } else {
-        // Si la cookie no existe en la base de datos, se genera una nueva
-        createNewCookie();
+        die("Error al crear id_cookie: " . $stmt->error);
     }
+    $stmt->close();
 } else {
-    // Si no hay cookie en el navegador, se genera una nueva
-    createNewCookie();
+    // Usar la id_cookie existente de la cookie
+    $id_cookie = $_COOKIE['id_cookie'];
 }
 
-// Función para crear una nueva cookie
-function createNewCookie() {
-    global $conn;
-    $id_cookie = uniqid(); // Generar un ID único para la cookie
-    $fecha = date("Y-m-d"); // Fecha actual
+// Verificar que se pasó el id_tnoticia
+if (isset($_GET['id_tnoticia'])) {
+    $id_tnoticia = intval($_GET['id_tnoticia']); // Asegurar que sea un entero
 
-    // Insertar la nueva cookie en la base de datos con id_tnoticia como NULL
-    $sql = "INSERT INTO Cookie (id_cookie, id_tnoticia, fecha) VALUES ('$id_cookie', NULL, '$fecha')";
+    // Registrar la interacción en la tabla Cookie con el id_tnoticia
+    $sql = "UPDATE Cookie SET id_tnoticia = ? WHERE id_cookie = ?";
+    $stmt = $conn->prepare($sql);
+    $stmt->bind_param("ii", $id_tnoticia, $id_cookie);
 
-    if ($conn->query($sql) === TRUE) {
-        // Guardar la cookie en el navegador, válida por 30 días
-        setcookie('user_cookie', $id_cookie, time() + (30 * 24 * 60 * 60), "/");
+    if ($stmt->execute()) {
+        echo "Noticia registrada correctamente para la cookie.";
     } else {
-        die("Error al insertar cookie: " . $conn->error);
+        echo "Error al registrar la noticia: " . $stmt->error;
     }
+    $stmt->close();
+} else {
+    echo "No se recibió id_tnoticia.";
 }
+
+$conn->close();
 ?>
