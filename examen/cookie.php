@@ -38,8 +38,6 @@ if (isset($_GET['id_tnoticia'])) {
         echo "Error al registrar la noticia: " . $stmt->error;
     }
     $stmt->close();
-} else {
-    echo "No se recibió id_tnoticia.";
 }
 
 $conn->close();
