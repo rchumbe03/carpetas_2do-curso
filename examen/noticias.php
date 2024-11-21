@@ -81,8 +81,8 @@ if (count($conditions) > 0) {
     $sql .= " WHERE " . implode(" AND ", $conditions);
 }
 
-// Limitar a 6 resultados
-$sql .= " LIMIT 6";
+// Limitar a 8 resultados
+$sql .= " LIMIT 8";
 
 // Ejecutar la consulta
 $result = $conn->query($sql);
