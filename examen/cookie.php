@@ -1,42 +1,51 @@
 <?php
 include 'conexion.php';
 
-// Generar una nueva id_cookie si no existe
-if (!isset($_COOKIE['id_cookie'])) {
-    // Crear un registro en la tabla Cookie y guardar id_cookie en una cookie
+// Función para obtener o crear una id_cookie
+function getOrCreateCookieId($conn) {
+    // Verificar si la cookie 'id_cookie' ya está establecida
+    if (isset($_COOKIE['id_cookie'])) {
+        return $_COOKIE['id_cookie'];
+    }
+
+    // Si no existe, crear una nueva id_cookie
+    $fecha_actual = date('Y-m-d'); // Fecha actual
     $sql = "INSERT INTO Cookie (fecha) VALUES (?)";
     $stmt = $conn->prepare($sql);
-    $fecha_actual = date('Y-m-d'); // Fecha actual
     $stmt->bind_param("s", $fecha_actual);
 
     if ($stmt->execute()) {
-        // Recuperar el id_cookie generado
         $id_cookie = $stmt->insert_id;
-        // Guardar id_cookie en una cookie con duración de 30 días
+        // Guardar id_cookie en la cookie con duración de 30 días
         setcookie('id_cookie', $id_cookie, time() + (30 * 24 * 60 * 60), "/");
-    } else {
-        die("Error al crear id_cookie: " . $stmt->error);
+        $stmt->close();
+        return $id_cookie;
     }
-    $stmt->close();
-} else {
-    // Usar la id_cookie existente de la cookie
-    $id_cookie = $_COOKIE['id_cookie'];
+
+    // En caso de error, mostrar mensaje y finalizar
+    die("Error al crear id_cookie: " . $stmt->error);
 }
 
-// Verificar que se pasó el id_tnoticia
-if (isset($_GET['id_tnoticia'])) {
-    $id_tnoticia = intval($_GET['id_tnoticia']); // Asegurar que sea un entero
+// Obtener o crear la id_cookie
+$id_cookie = getOrCreateCookieId($conn);
 
-    // Registrar la interacción en la tabla Cookie con el id_tnoticia
-    $sql = "UPDATE Cookie SET id_tnoticia = ? WHERE id_cookie = ?";
+// Verificar que se pasó el parámetro id_tnoticia
+if (isset($_GET['id_tnoticia'])) {
+    $id_tnoticia = (int)$_GET['id_tnoticia']; // Convertir el valor a entero para evitar inyecciones SQL
+
+    // Registrar la interacción en la tabla Cookie solo si el id_tnoticia es válido
+    $sql = "INSERT INTO Cookie (id_tnoticia, id_cookie, fecha) VALUES (?, ?, ?)
+            ON DUPLICATE KEY UPDATE id_tnoticia = VALUES(id_tnoticia)";
     $stmt = $conn->prepare($sql);
-    $stmt->bind_param("ii", $id_tnoticia, $id_cookie);
+    $fecha_actual = date('Y-m-d'); // Fecha actual
+    $stmt->bind_param("iis", $id_tnoticia, $id_cookie, $fecha_actual);
 
     if ($stmt->execute()) {
-        echo "Noticia registrada correctamente para la cookie.";
+        echo "Interacción registrada correctamente.";
     } else {
-        echo "Error al registrar la noticia: " . $stmt->error;
+        echo "Error al registrar la interacción: " . $stmt->error;
     }
+
     $stmt->close();
 }
 

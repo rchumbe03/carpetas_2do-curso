@@ -32,7 +32,7 @@ while ($row = $result_check->fetch_assoc()) {
     $visited_tnoticias[$row['id_tnoticia']] = $row['visit_count'];
 }
 
-// Obtener los id_tnoticia de los que se ha visitado más de 5 veces
+// Revisa si se cumplió la consulta sql_check_visited
 $tnoticias_to_return = [];
 foreach ($visited_tnoticias as $id_tnoticia => $visit_count) {
     if ($visit_count >= 5) {
@@ -70,7 +70,7 @@ if ($filter_categoria !== "") {
     $conditions[] = "t.categoria = '$filter_categoria'";
 }
 
-// Agregar condición para priorizar noticias con 3 visitas
+// Agregar condición para priorizar noticias con 5 visitas
 if (count($tnoticias_to_return) > 0 && $filter_categoria === "") {
     $tnoticias_to_return_str = implode(',', $tnoticias_to_return);
     $conditions[] = "n.id_tnoticia IN ($tnoticias_to_return_str)";
