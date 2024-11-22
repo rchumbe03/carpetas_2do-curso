@@ -1,22 +1,22 @@
 <?php
 include 'conexion.php';
 
-// Verifica si la conexión se ha realizado correctamente
+// Verificar si la conexión fue exitosa
 if ($conn->connect_error) {
     die("Error en la conexión: " . $conn->connect_error);
 }
 
-// Obtener el id_cookie de la cookie (debería estar establecido previamente)
-if (!isset($_COOKIE['id_cookie'])) {
+// Obtener el id_cookie desde la cookie
+$id_cookie = $_COOKIE['id_cookie'] ?? null;
+
+if (!$id_cookie) {
     echo "No se ha detectado una cookie válida.";
     exit;
-} else {
-    $id_cookie = $_COOKIE['id_cookie'];
 }
 
-// Verificar cuántas noticias ha visitado el usuario para cada id_tnoticia
+// Verificar cuántas noticias ha visitado el usuario por categoría
 $sql_check_visited = "
-    SELECT id_tnoticia, COUNT(*) as visit_count
+    SELECT id_tnoticia, COUNT(*) AS visit_count
     FROM Cookie
     WHERE id_cookie = ? 
     GROUP BY id_tnoticia
@@ -26,68 +26,81 @@ $stmt_check->bind_param("s", $id_cookie);
 $stmt_check->execute();
 $result_check = $stmt_check->get_result();
 
-// Almacenar los id_tnoticia visitados y su cantidad de visitas
-$visited_tnoticias = [];
-while ($row = $result_check->fetch_assoc()) {
-    $visited_tnoticias[$row['id_tnoticia']] = $row['visit_count'];
-}
-
-// Revisa si se cumplió la consulta sql_check_visited
+// Crear un array con categorías visitadas más de 5 veces
 $tnoticias_to_return = [];
-foreach ($visited_tnoticias as $id_tnoticia => $visit_count) {
-    if ($visit_count >= 5) {
-        $tnoticias_to_return[] = $id_tnoticia;
+while ($row = $result_check->fetch_assoc()) {
+    if ($row['visit_count'] >= 5) {
+        $tnoticias_to_return[] = $row['id_tnoticia'];
     }
 }
+$stmt_check->close();
 
-// Consulta para mostrar las noticias
-$sql = "SELECT n.noticia_id, n.Titulo, t.categoria, n.id_tnoticia 
-        FROM Noticia n 
-        JOIN Tnoticia t ON n.id_tnoticia = t.id_tnoticia";
+// Inicializar la consulta de noticias
+$sql = "
+    SELECT 
+        n.noticia_id, 
+        n.Titulo, 
+        t.categoria, 
+        n.id_tnoticia 
+    FROM Noticia n 
+    JOIN Tnoticia t ON n.id_tnoticia = t.id_tnoticia
+";
 
-// Consulta de búsqueda y filtrado por categoría
-$search_query = ""; // Inicializa la búsqueda vacía
-$filter_categoria = "";
-
-if (isset($_GET['search'])) {
-    $search_query = $conn->real_escape_string($_GET['search']);
-}
-
-if (isset($_GET['categoria'])) {
-    $filter_categoria = $conn->real_escape_string($_GET['categoria']);
-}
-
-// Construcción de las condiciones
+// Manejo de filtros: búsqueda, categoría y categorías visitadas
 $conditions = [];
+$params = [];
+$types = "";
 
-// Agregar condición para el término de búsqueda
-if ($search_query !== "") {
-    $conditions[] = "n.Titulo LIKE '%$search_query%'";
+// Filtro por búsqueda
+if (!empty($_GET['search'])) {
+    $search_query = "%" . $_GET['search'] . "%";
+    $conditions[] = "n.Titulo LIKE ?";
+    $params[] = $search_query;
+    $types .= "s";
 }
 
-// Agregar condición para el filtro por categoría
-if ($filter_categoria !== "") {
-    $conditions[] = "t.categoria = '$filter_categoria'";
+// Filtro por categoría
+if (!empty($_GET['categoria'])) {
+    $filter_categoria = $_GET['categoria'];
+    $conditions[] = "t.categoria = ?";
+    $params[] = $filter_categoria;
+    $types .= "s";
 }
 
-// Agregar condición para priorizar noticias con 5 visitas
-if (count($tnoticias_to_return) > 0 && $filter_categoria === "") {
-    $tnoticias_to_return_str = implode(',', $tnoticias_to_return);
-    $conditions[] = "n.id_tnoticia IN ($tnoticias_to_return_str)";
+// Priorizar categorías visitadas más de 5 veces (si no hay filtro de categoría explícito)
+if (!empty($tnoticias_to_return) && empty($_GET['categoria'])) {
+    $placeholders = implode(",", array_fill(0, count($tnoticias_to_return), "?"));
+    $conditions[] = "n.id_tnoticia IN ($placeholders)";
+    $params = array_merge($params, $tnoticias_to_return);
+    $types .= str_repeat("i", count($tnoticias_to_return));
 }
 
-// Combinar todas las condiciones
-if (count($conditions) > 0) {
+// Combinar condiciones
+if (!empty($conditions)) {
     $sql .= " WHERE " . implode(" AND ", $conditions);
 }
 
-// Limitar a 8 resultados
+// Limitar resultados
 $sql .= " LIMIT 8";
 
-// Ejecutar la consulta
-$result = $conn->query($sql);
+// Preparar y ejecutar la consulta
+$stmt = $conn->prepare($sql);
+if ($stmt === false) {
+    die("Error al preparar la consulta: " . $conn->error);
+}
+
+if (!empty($params)) {
+    $stmt->bind_param($types, ...$params);
+}
+
+$stmt->execute();
+$result = $stmt->get_result();
 
 if (!$result) {
-    die("Error en la consulta: " . $conn->error);
+    die("Error en la consulta: " . $stmt->error);
 }
+
+// Cerrar la conexión
+$stmt->close();
+$conn->close();
 ?>
