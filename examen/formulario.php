@@ -68,12 +68,14 @@ include 'noticias.php';
             $id_tnoticia = $row['id_tnoticia'];
 
             // Generar el enlace dinámico para la noticia
+            echo "<div class='contenedor-noticia'>";
             echo "<a href='detalle_noticia.php?noticia_id=" . $row['noticia_id'] . "&id_tnoticia=" . $id_tnoticia . "' class='enlace-noticia'>";
             echo "<div class='noticia'>";
             echo "<div class='titulo'>" . htmlspecialchars($row['Titulo']) . "</div>";
             echo "<div class='categoria'>Categoría: " . htmlspecialchars($row['categoria']) . "</div>";
             echo "</div>";
             echo "</a>";
+            echo "</div>";
         }
     } else {
         echo "<p>No se encontraron noticias.</p>";

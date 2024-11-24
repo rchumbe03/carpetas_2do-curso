@@ -12,6 +12,10 @@ body {
     box-shadow: 0 0 5px rgba(0, 0, 0, 0.1);
     margin: 20px;
 }
+.contenedor-noticia {
+    width: 1024px;
+    margin: 0 auto;
+}
 .enlace-noticia {
     text-decoration: none;
     color: inherit;
