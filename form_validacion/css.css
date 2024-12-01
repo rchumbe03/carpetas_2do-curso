@@ -1,0 +1,23 @@
+body {
+    font-family: Arial, sans-serif;
+    transition: background-color, color;
+}
+
+#app {
+    width: 300px;
+    margin: 0 auto;
+    text-align: center;
+}
+  
+form {
+    margin-bottom: 20px;
+}
+  
+button {
+    margin: 5px;
+}
+
+.dark-theme {
+    background-color: black;
+    color: white;
+}

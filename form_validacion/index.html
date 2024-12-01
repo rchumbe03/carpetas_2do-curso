@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Formulario</title>
+  <link rel="stylesheet" href="css.css">
+</head>
+<body>
+    <div id="app">
+        <h1>Validación del formulario</h1>
+        <form id="userForm">
+            <label for="name">Nombre</label>
+            <br>
+            <input type="text" id="name" name="name" required> <!-- Texto nombre -->
+            <br>
+            <label for="email">Correo</label>
+            <br>
+            <input type="email" id="email" name="email" required> <!-- Texto correo -->
+            <br>
+            <button type="submit">Enviar formulario</button>
+        </form>
+        <div id="storedData"></div>
+        <button type="button" id="deleteData">Borrar datos</button> <!-- Boton borrar -->
+        <button id="changeTheme">Claro/Oscuro</button> <!-- Boton Claro/Oscuro -->
+    </div>
+    <script src="js.js"></script>
+</body>
+</html>

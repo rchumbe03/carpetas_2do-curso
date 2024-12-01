@@ -1,0 +1,33 @@
+body {
+    font-family: Arial, sans-serif;
+    margin: 20px;
+    padding: 20px;
+    transition: background-color 0.3s, color 0.3s, font-size 0.3s;
+  }
+  
+  body.light {
+    background-color: #ffffff;
+    color: #000000;
+  }
+  
+  body.dark {
+    background-color: #000000;
+    color: #ffffff;
+  }
+  
+  body.small {
+    font-size: 12px;
+  }
+  
+  body.medium {
+    font-size: 16px;
+  }
+  
+  body.large {
+    font-size: 20px;
+  }
+  
+  button {
+    margin: 10px 0;
+  }
+  

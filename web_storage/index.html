@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Preferencias de Usuario</title>
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <div id="app">
+    <h1>Configuración de Preferencias</h1>
+    <form id="preferencesForm">
+      <label>
+        Tema:
+        <select id="theme">
+          <option value="light">Claro</option>
+          <option value="dark">Oscuro</option>
+        </select>
+      </label>
+      <label>
+        Tamaño de Fuente:
+        <select id="fontSize">
+          <option value="small">Pequeño</option>
+          <option value="medium">Mediano</option>
+          <option value="large">Grande</option>
+        </select>
+      </label>
+      <label>
+        Idioma:
+        <select id="language">
+          <option value="es">Español</option>
+          <option value="en">Inglés</option>
+        </select>
+      </label>
+      <button type="submit">Guardar Preferencias</button>
+      <button type="button" id="resetButton">Restablecer</button>
+    </form>
+    <p id="lastVisit"></p>
+  </div>
+  <script src="script.js"></script>
+</body>
+</html>
