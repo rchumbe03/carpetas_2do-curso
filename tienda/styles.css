@@ -1,20 +1,25 @@
+/* Estilos generales */
 body {
     font-family: Arial, sans-serif;
     margin: 0;
     padding: 0;
-    background-color: #f4f4f4;
+    color: #425351;
+    background-color: #ededed;
 }
+
+/* Estilos del header */
 .header {
     height: 64px;
-    background-color: rgba(239, 239, 239, 1);
+    background-color: #EFEFEF;
     display: flex;
     align-items: center;
     justify-content: center;
-    margin: 0;
+    margin: 0 auto;
     padding: 0;
+    border-bottom: 1px solid #d3d3d3;
 }
 .container {
-    width: 1120px;
+    width: 1152px;
     height: 32px;
     display: flex;
     align-items: center;
@@ -26,27 +31,39 @@ body {
     align-items: center;
     margin-right: 40%;
 }
+.header-logo {
+    width: 156px;
+    height: 32px;
+}
+.header-logo img {
+    width: 100%;
+    height: auto;
+}
 .table a {
     margin: 0 10px;
     text-decoration: none;
-    color: #000;
+    color: #425351;
     font-size: 14px;
 }
 .table a:hover {
     text-decoration: underline;
 }
 .search-bar {
-    width: 251px;
-    height: 32px;
     display: flex;
     align-items: center;
     justify-content: flex-end;
+    border-radius: 5px;
 }
 .search-bar input[type="text"] {
+    width: 200px;
+    height: 22px;
     padding: 5px;
     font-size: 14px;
+    border: 1px solid #4d7671;
+    border-radius: 5px;
 }
 
+/* Estilos de los contenedores de frames */
 .frame-container {
     width: 1135px;
     height: 399px;
@@ -57,7 +74,8 @@ body {
 .frame {
     width: 212px;
     height: 399px;
-    background-color: #ffffff;
+    background-color: hsl(173, 40%, 57%, 50%);
+    border: 1px solid #d3d3d3;
     display: flex;
     flex-direction: column;
     align-items: flex-start;
@@ -65,6 +83,8 @@ body {
     padding: 21px;
     box-sizing: border-box;
     gap: 16px;
+    border-radius: 10px;
+    box-shadow: 4px 4px #57989133;
 }
 .frame:last-child {
     margin-right: 0;
@@ -72,7 +92,8 @@ body {
 .image-container {
     width: 170px;
     height: 253px;
-    background-color: #bbb;
+    background-color: #ededed;
+    border-radius: 10px;
 }
 .text-frame {
     width: 170px;
@@ -85,15 +106,14 @@ body {
 .small-text {
     font-size: 10px;
     text-align: left;
-    color: #737373;
     font-family: 'sans-pro', sans-serif;
+    color: #ededed;
     margin: 0;
 }
 .large-text {
     font-size: 18px;
     font-weight: bold;
     text-align: left;
-    color: #737373;
     font-family: 'sans-pro', sans-serif;
     margin: 0;
 }
@@ -107,7 +127,18 @@ body {
 .add-button {
     width: 91px;
     height: 32px;
-    font-size: 16px;
+    font-size: 14px;
+    border-radius: 5px;
+    border: 0px;
+    background-color: #ededed;
+    color: #425351;
+    border: 1px solid #d3d3d3;
+    cursor: pointer; /* Hacer clickeable */
+}
+.add-button:hover {
+    background-color: #4d7671; /* Cambiar color al posicionar el cursor */
+    color: #ffffff; /* Cambiar el color del texto a blanco */
+    border: 1px solid #425351;
 }
 .price-text {
     width: 80px;
@@ -116,13 +147,15 @@ body {
     text-align: right;
     line-height: 25px;
 }
+
+/* Estilos del footer */
 .footer {
     height: 190px;
     padding: 35px 64px;
     display: flex;
     align-items: center;
     justify-content: flex-start;
-    background-color: #e0e0e0;
+    background-color: #4d7671;
     margin: 20px auto 0;
 }
 .footer-logo {
@@ -147,6 +180,6 @@ body {
     line-height: 20px;
     font-size: 16px;
     text-align: center;
-    color: #737373;
+    color: #ffffff;
     font-family: 'sans-pro', sans-serif;
 }

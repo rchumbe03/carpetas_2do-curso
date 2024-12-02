@@ -1,0 +1,253 @@
+/* Estilos generales */
+body {
+    font-family: Arial, sans-serif;
+    margin: 0;
+    padding: 0;
+    color: #425351;
+    background-color: #ededed;
+}
+
+/* Estilos del header */
+.header {
+    height: 64px;
+    background-color: #EFEFEF;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin: 0 auto;
+    padding: 0;
+    border-bottom: 1px solid #d3d3d3;
+}
+.container {
+    width: 1152px;
+    height: 32px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+.table {
+    margin-left: 30px;
+    display: flex;
+    align-items: center;
+    margin-right: 40%;
+}
+.header-logo {
+    width: 156px;
+    height: 32px;
+}
+.header-logo img {
+    width: 100%;
+    height: auto;
+}
+.table a {
+    margin: 0 10px;
+    text-decoration: none;
+    color: #425351;
+    font-size: 14px;
+}
+.table a:hover {
+    text-decoration: underline;
+}
+.search-bar {
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+    border-radius: 5px;
+}
+.search-bar input[type="text"] {
+    width: 200px;
+    height: 22px;
+    padding: 5px;
+    font-size: 14px;
+    border: 1px solid #4d7671;
+    border-radius: 5px;
+}
+
+/* Estilos del texto personalizado */
+.custom-text {
+    font-size: 30px;
+    font-weight: bold;
+    margin: 20px auto;
+    padding-left: 7.7%;
+}
+
+/* Estilos del contenedor principal */
+.main-container {
+    display: flex;
+    justify-content: space-evenly;
+    align-items: flex-start;
+    width: 1158px;
+    padding: 0px 20px;
+    margin: 0 auto;
+}
+
+/* Estilos del contenedor personalizado */
+.custom-container {
+    width: 680px;
+    height: auto;
+    display: flex;
+    flex-wrap: wrap;
+    align-items: flex-start;
+    justify-content: flex-start;
+    gap: 40px 22px;
+    padding: 19px 21px;
+    border-radius: 10px;
+    background-color: hsl(173, 40%, 57%, 20%);
+    margin: 20px auto;
+}
+
+/* Estilos del contenedor lateral */
+.side-container {
+    width: 338px;
+    height: auto;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: flex-start;
+    gap: 20px;
+    padding: 20px;
+    border-radius: 10px;
+    background-color: hsl(173, 27%, 47%, 10%);
+    margin-top: 20px;
+}
+
+/* Estilos del frame personalizado */
+.custom-frame {
+    width: 680px;
+    height: 159px;
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-around;
+    margin: 0 auto;
+    padding: 0;
+    border-radius: 10px;
+}
+.frame-img {
+    border: 1px solid #425351;
+    width: 119px;
+    height: 159px;
+    border-radius: 10px;
+    overflow: hidden;
+}
+.frame-img img {
+    width: 100%;
+    height: auto;
+}
+.content-frame {
+    width: 500px;
+    height: 159px;
+    display: flex;
+    flex-wrap: wrap;
+    align-items: flex-start;
+    justify-content: flex-start;
+    gap: 40px 80px;
+    padding: 0;
+}
+.description-frame {
+    width: 380px;
+    height: 40px;
+}
+.small-text-box {
+    font-size: 10px;
+    line-height: 16px;
+}
+.large-text-box {
+    font-size: 18px;
+    line-height: 25px;
+    font-weight: bold;
+}
+.icon-frame {
+    width: 40px;
+    height: 40px;
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+    gap: 10px;
+    padding: 0;
+    cursor: pointer; /* Hacer clickeable */
+}
+.img-icon {
+    width: 18px;
+    height: 21px;
+}
+.img-icon img {
+    width: 100%;
+    height: auto;
+}
+.additional-frame {
+    width: 500px;
+    height: 16px;
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+    padding: 0;
+}
+.text-box-small {
+    font-size: 10px;
+}
+.text-box-large {
+    font-size: 18px;
+    font-weight: bold;
+}
+
+/* Estilos de la línea principal */
+.line-main {
+    width: 650px;
+    height: 0;
+    border-top: 1px solid #000;
+    margin: 0 auto;
+}
+
+/* Estilos del frame del botón */
+.frame-button {
+    width: 338px;
+    height: 60px;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    justify-content: center;
+    padding: 0;
+}
+.frame-button .text-box {
+    width: -webkit-fill-available;
+    height: 25px;
+    font-size: 18px;
+    font-weight: bold;
+    line-height: 25px;
+}
+.frame-button .button {
+    width: -webkit-fill-available;
+    height: 35px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 8px;
+    border-radius: 8px;
+    border: none;
+    background-color: #425351;
+    color: #ffffff;
+    font-size: 16px;
+    cursor: pointer; /* Hacer clickeable */
+}
+.frame-button .button:hover {
+    background-color: hsl(173, 27%, 47%, 30%); /* Cambiar color al posicionar el cursor */
+    color: #425351; /* Cambiar el color del texto a negro */
+}
+
+/* Estilos de la línea lateral */
+.line-side {
+    width: 338px;
+    height: 0;
+    border-top: 1px solid #000;
+    margin: 0 auto;
+}
+
+/* Estilos del frame de precio */
+.precio-frame {
+    width: 338px;
+    height: 16px;
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+    padding: 0;
+}
