@@ -136,8 +136,7 @@ body {
     cursor: pointer; /* Hacer clickeable */
 }
 .add-button:hover {
-    background-color: #4d7671; /* Cambiar color al posicionar el cursor */
-    color: #ffffff; /* Cambiar el color del texto a blanco */
+    background-color: #edededbb;
     border: 1px solid #425351;
 }
 .price-text {

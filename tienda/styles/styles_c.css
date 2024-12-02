@@ -230,8 +230,7 @@ body {
     cursor: pointer; /* Hacer clickeable */
 }
 .frame-button .button:hover {
-    background-color: hsl(173, 27%, 47%, 30%); /* Cambiar color al posicionar el cursor */
-    color: #425351; /* Cambiar el color del texto a negro */
+    background-color: #425351ce; /* Cambiar color al posicionar el cursor */
 }
 
 /* Estilos de la línea lateral */
