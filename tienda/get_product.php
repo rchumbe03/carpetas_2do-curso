@@ -32,7 +32,7 @@ function searchProducts($searchTerm) {
 
 function getCartProducts($userId) {
     global $conn;
-    $sql = "SELECT p.id_producto, p.nombre, p.precio, c.cantidad 
+    $sql = "SELECT p.id_producto, p.nombre, p.categoria, p.precio, p.imagen_url, p.stock, c.cantidad 
             FROM Carrito c 
             JOIN Producto p ON c.id_producto = p.id_producto 
             WHERE c.id_usuario = $userId";

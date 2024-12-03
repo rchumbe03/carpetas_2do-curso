@@ -1,6 +1,7 @@
 document.addEventListener('DOMContentLoaded', function() {
     const addButtons = document.querySelectorAll('.add-button');
     const globalQuantityFrame = document.getElementById('global-quantity-frame');
+    const confirmButton = document.querySelector('.confirm-button');
     let currentProductId = null;
 
     addButtons.forEach(button => {
@@ -24,6 +25,30 @@ document.addEventListener('DOMContentLoaded', function() {
 
     globalQuantityFrame.addEventListener('click', function(event) {
         event.stopPropagation();
+    });
+
+    confirmButton.addEventListener('click', function() {
+        const quantity = parseInt(document.getElementById('quantity').textContent);
+        fetch('add_to_cart.php', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({
+                product_id: currentProductId,
+                quantity: quantity
+            })
+        })
+        .then(response => response.json())
+        .then(data => {
+            if (data.success) {
+                alert('Producto añadido al carrito');
+                globalQuantityFrame.style.display = 'none';
+            } else {
+                alert('Error al añadir el producto al carrito: ' + data.error);
+                console.error('Error:', data.error, 'SQL:', data.sql);
+            }
+        });
     });
 });
 

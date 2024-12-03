@@ -17,7 +17,7 @@ if ($searchTerm) {
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Carrito</title>
+    <title>Inicio</title>
     <link rel="stylesheet" href="styles/styles.css">
     <script src="script/producto.js" defer></script>
 </head>

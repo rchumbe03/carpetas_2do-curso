@@ -1,3 +1,12 @@
+<?php
+include 'conexion.php';
+include 'get_product.php';
+
+// Obtener los productos del carrito para el usuario actual (suponiendo que el usuario está autenticado y su ID es 1)
+$userId = 1; // Cambia esto según tu lógica de autenticación
+$cartProducts = getCartProducts($userId);
+?>
+
 <!DOCTYPE html>
 <html lang="es">
 <head>
@@ -5,6 +14,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Carrito</title>
     <link rel="stylesheet" href="styles/styles_c.css">
+    <script src="script/carrito.js" defer></script>
 </head>
 <body>
     <header class="header">
@@ -39,49 +49,31 @@
     <div class="main-container">
         <!-- Contenedor con las especificaciones dadas -->
         <div class="custom-container">
-            <div class="custom-frame">
-                <div class="frame-img">
-                    <img src="image.png" alt="Imagen">
-                </div>
-                <div class="content-frame">
-                    <!-- Frame descripción dentro del frame contenido -->
-                    <div class="description-frame">
-                        <div class="small-text-box">Texto pequeño</div>
-                        <div class="large-text-box">Texto grande</div>
+            <?php if (count($cartProducts) > 0): ?>
+                <?php foreach ($cartProducts as $product): ?>
+                <div class="custom-frame">
+                    <div class="frame-img">
+                        <img src="<?php echo $product['imagen_url']; ?>" alt="<?php echo $product['nombre']; ?>" class="product-image">
                     </div>
-                    <div class="icon-frame">
-                        <div class="img-icon">
-                            <img src="img/icon.png" alt="Icono">
+                    <div class="content-frame">
+                        <!-- Frame descripción dentro del frame contenido -->
+                        <div class="description-frame">
+                            <div class="small-text-box"><?php echo $product['categoria']; ?></div>
+                            <div class="large-text-box"><?php echo $product['nombre']; ?></div>
+                        </div>
+                        <div class="icon-frame">
+                            <img src="img/icon.png" alt="Eliminar" class="remove-button" data-product-id="<?php echo $product['id_producto']; ?>">
+                        </div>
+                        <div class="additional-frame">
+                            <div class="text-box-small">Stock: <?php echo $product['stock']; ?></div>
+                            <div class="text-box-large"><?php echo number_format($product['precio'], 2); ?>$</div>
                         </div>
                     </div>
-                    <div class="additional-frame">
-                        <div class="text-box-small">Texto pequeño adicional</div>
-                        <div class="text-box-large">0,00$</div>
-                    </div>
                 </div>
-            </div>
-            <div class="line-main"></div>
-            <div class="custom-frame">
-                <div class="frame-img">
-                    <img src="image.png" alt="Imagen">
-                </div>
-                <div class="content-frame">
-                    <!-- Frame descripción dentro del frame contenido -->
-                    <div class="description-frame">
-                        <div class="small-text-box">Texto pequeño</div>
-                        <div class="large-text-box">Texto grande</div>
-                    </div>
-                    <div class="icon-frame">
-                        <div class="img-icon">
-                            <img src="img/icon.png" alt="Icono">
-                        </div>
-                    </div>
-                    <div class="additional-frame">
-                        <div class="text-box-small">Texto pequeño adicional</div>
-                        <div class="text-box-large">0,00$</div>
-                    </div>
-                </div>
-            </div>
+                <?php endforeach; ?>
+            <?php else: ?>
+                <p>Tu carrito está vacío.</p>
+            <?php endif; ?>
         </div>
 
         <!-- Nuevo contenedor a la derecha -->
