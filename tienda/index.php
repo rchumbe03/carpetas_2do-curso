@@ -3,6 +3,7 @@ include 'funcion_php/conexion.php';
 include 'funcion_php/get_product.php';
 
 $searchTerm = isset($_GET['search']) ? $_GET['search'] : '';
+$message = isset($_GET['message']) ? $_GET['message'] : '';
 
 if ($searchTerm) {
     $products = searchProducts($searchTerm);
@@ -72,6 +73,13 @@ if (isset($data['product_id']) && isset($data['quantity'])) {
         </div>
     </header>
     
+    <!-- Mostrar mensaje de éxito si existe -->
+    <?php if ($message == 'productos_comprados'): ?>
+        <div class="success-message">
+            Productos comprados
+        </div>
+    <?php endif; ?>
+
     <!-- Contenedor de frames -->
     <?php if ($searchTerm): ?>
         <div class="frame-container">

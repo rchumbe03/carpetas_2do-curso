@@ -4,7 +4,19 @@ include 'funcion_php/get_product.php';
 
 // Obtener los productos del carrito para el usuario actual (suponiendo que el usuario está autenticado y su ID es 1)
 $userId = 1; // Cambia esto según tu lógica de autenticación
-$cartProducts = getCartProducts($userId);
+$searchTerm = isset($_GET['search']) ? $_GET['search'] : '';
+
+if ($searchTerm) {
+    $cartProducts = searchCartProducts($userId, $searchTerm);
+} else {
+    $cartProducts = getCartProducts($userId);
+}
+
+// Calcular el total de todos los productos en el carrito
+$total = 0;
+foreach ($cartProducts as $product) {
+    $total += $product['precio'] * $product['cantidad'];
+}
 ?>
 
 <!DOCTYPE html>
@@ -35,7 +47,7 @@ $cartProducts = getCartProducts($userId);
     
             <!-- Barra de búsqueda -->
             <form class="search-bar" method="GET" action="carrito.php">
-                <input type="text" name="search" placeholder="Buscar...">
+                <input type="text" name="search" placeholder="Buscar..." value="<?php echo htmlspecialchars($searchTerm); ?>">
             </form>
         </div>
     </header>
@@ -65,8 +77,8 @@ $cartProducts = getCartProducts($userId);
                             <img src="img/icon.png" alt="Eliminar" class="remove-button" data-product-id="<?php echo $product['id_producto']; ?>">
                         </div>
                         <div class="additional-frame">
-                            <div class="text-box-small">Stock: <?php echo $product['stock']; ?></div>
-                            <div class="text-box-large"><?php echo number_format($product['precio'], 2); ?>$</div>
+                            <div class="text-box-small">Cantidad: <?php echo $product['cantidad']; ?></div>
+                            <div class="text-box-large"><?php echo number_format($product['precio'] * $product['cantidad'], 2); ?>$</div>
                         </div>
                     </div>
                 </div>
@@ -79,15 +91,27 @@ $cartProducts = getCartProducts($userId);
         <!-- Nuevo contenedor a la derecha -->
         <div class="side-container">
             <div class="frame-button">
-                <div class="text-box">Texto del botón</div>
-                <button class="button">Botón</button>
+                <div class="text-box">Resumen</div>
+                <form action="funcion_php/comprar.php" method="POST">
+                    <button class="button">Comprar</button>
+                </form>
             </div>
             <div class="line-side"></div>
             <div class="precio-frame">
-                <div class="text-box-small">Texto pequeño adicional</div>
-                <div class="text-box-large">0,00$</div>
+                <div class="text-box-small">Total :</div>
+                <div class="text-box-large"><?php echo number_format($total, 2); ?>$</div>
             </div>
         </div>
+    </div>
+
+    <!-- Contenedor global para el quantity-frame -->
+    <div id="global-quantity-frame" style="display: none;">
+        <div class="quantity-frame">
+            <button class="quantity-button" onclick="decreaseQuantity()">-</button>
+            <span id="quantity">1</span>
+            <button class="quantity-button" onclick="increaseQuantity()">+</button>
+        </div>
+        <button class="confirm-button">Confirmar</button>
     </div>
 </body>
 </html>

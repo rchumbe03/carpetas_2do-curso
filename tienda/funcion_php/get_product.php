@@ -46,4 +46,22 @@ function getCartProducts($userId) {
     }
     return $products;
 }
+
+function searchCartProducts($userId, $searchTerm) {
+    global $conn;
+    $searchTerm = $conn->real_escape_string($searchTerm);
+    $sql = "SELECT p.id_producto, p.nombre, p.categoria, p.precio, p.imagen_url, p.stock, c.cantidad 
+            FROM Carrito c 
+            JOIN Producto p ON c.id_producto = p.id_producto 
+            WHERE c.id_usuario = $userId AND (p.nombre LIKE '%$searchTerm%' OR p.categoria LIKE '%$searchTerm%')";
+    $result = $conn->query($sql);
+    $products = [];
+
+    if ($result->num_rows > 0) {
+        while($row = $result->fetch_assoc()) {
+            $products[] = $row;
+        }
+    }
+    return $products;
+}
 ?>
