@@ -1,6 +1,6 @@
 <?php
-include 'conexion.php';
-include 'get_product.php';
+include 'funcion_php/conexion.php';
+include 'funcion_php/get_product.php';
 
 // Obtener los productos del carrito para el usuario actual (suponiendo que el usuario está autenticado y su ID es 1)
 $userId = 1; // Cambia esto según tu lógica de autenticación

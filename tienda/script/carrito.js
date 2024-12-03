@@ -5,7 +5,7 @@ document.addEventListener('DOMContentLoaded', function() {
         button.addEventListener('click', function() {
             const productId = this.getAttribute('data-product-id');
             // Lógica para eliminar el producto del carrito
-            fetch(`remove_from_cart.php?product_id=${productId}`, {
+            fetch(`funcion_php/remove_from_cart.php?product_id=${productId}`, {
                 method: 'GET'
             })
             .then(response => response.json())

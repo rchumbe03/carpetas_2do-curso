@@ -29,7 +29,7 @@ document.addEventListener('DOMContentLoaded', function() {
 
     confirmButton.addEventListener('click', function() {
         const quantity = parseInt(document.getElementById('quantity').textContent);
-        fetch('add_to_cart.php', {
+        fetch('funcion_php/add_to_cart.php', {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json'
