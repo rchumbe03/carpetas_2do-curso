@@ -1,7 +1,15 @@
 <?php
 include 'conexion.php';
 include 'get_product.php';
-$products = getProducts();
+
+$searchTerm = isset($_GET['search']) ? $_GET['search'] : '';
+
+if ($searchTerm) {
+    $products = searchProducts($searchTerm);
+} else {
+    $firstFiveProducts = getProducts(0, 5);
+    $nextFiveProducts = getProducts(5, 5);
+}
 ?>
 
 <!DOCTYPE html>
@@ -25,151 +33,85 @@ $products = getProducts();
 
             <div class="table">
                 <a href="index.php">Inicio</a>
-                <a href="carrito.html">Carrito</a>
-                <a href="login.html">Login</a>
-                <a href="registro.html">Registrate</a>
+                <a href="carrito.php">Carrito</a>
+                <a href="login.php">Login</a>
+                <a href="registro.php">Registrate</a>
             </div>
 
             <!-- Barra de búsqueda -->
             <form class="search-bar" method="GET" action="index.php">
-                <input type="text" name="search" placeholder="Buscar...">
+                <input type="text" name="search" placeholder="Buscar..." value="<?php echo htmlspecialchars($searchTerm); ?>">
             </form>
         </div>
     </header>
     
-    <!-- 1er Contenedor con 5 frames -->
-    <div class="frame-container">
-        <?php foreach ($products as $product): ?>
-        <div class="frame">
-            <div class="image-container">
-                <img src="<?php echo $product['imagen_url']; ?>" alt="<?php echo $product['nombre']; ?>" class="product-image">
+    <!-- Contenedor de frames -->
+    <?php if ($searchTerm): ?>
+        <div class="frame-container">
+            <?php foreach ($products as $product): ?>
+            <div class="frame">
+                <div class="image-container">
+                    <img src="<?php echo $product['imagen_url']; ?>" alt="<?php echo $product['nombre']; ?>" class="product-image">
+                </div>
+                <div class="text-frame">
+                    <p class="small-text"><?php echo $product['categoria']; ?></p>
+                    <p class="large-text"><?php echo $product['nombre']; ?></p>
+                </div>
+                <div class="price-button-frame">
+                    <button class="add-button" data-product-id="<?php echo $product['id_producto']; ?>">Añadir</button>
+                    <p class="price-text"><?php echo number_format($product['precio'], 2); ?>$</p>
+                </div>
             </div>
-            <div class="text-frame">
-                <p class="small-text"><?php echo $product['categoria']; ?></p>
-                <p class="large-text"><?php echo $product['nombre']; ?></p>
-            </div>
-            <div class="price-button-frame">
-                <button class="add-button">Añadir</button>
-                <p class="price-text"><?php echo number_format($product['precio'], 2); ?>$</p>
-            </div>
+            <?php endforeach; ?>
         </div>
-        <?php endforeach; ?>
-    </div>
-    <!-- 2do Contenedor con 5 frames -->
-    <div class="frame-container">
-        <div class="frame">
-            <div class="image-container"></div>
-            <div class="text-frame">
-                <p class="small-text">Texto pequeño</p>
-                <p class="large-text">Texto grande</p>
+    <?php else: ?>
+        <!-- 1er Contenedor con 5 frames -->
+        <div class="frame-container">
+            <?php foreach ($firstFiveProducts as $product): ?>
+            <div class="frame">
+                <div class="image-container">
+                    <img src="<?php echo $product['imagen_url']; ?>" alt="<?php echo $product['nombre']; ?>" class="product-image">
+                </div>
+                <div class="text-frame">
+                    <p class="small-text"><?php echo $product['categoria']; ?></p>
+                    <p class="large-text"><?php echo $product['nombre']; ?></p>
+                </div>
+                <div class="price-button-frame">
+                    <button class="add-button" data-product-id="<?php echo $product['id_producto']; ?>">Añadir</button>
+                    <p class="price-text"><?php echo number_format($product['precio'], 2); ?>$</p>
+                </div>
             </div>
-            <div class="price-button-frame">
-                <button class="add-button">Añadir</button>
-                <p class="price-text">0,00$</p>
-            </div>
+            <?php endforeach; ?>
         </div>
-        <div class="frame">
-            <div class="image-container"></div>
-            <div class="text-frame">
-                <p class="small-text">Texto pequeño</p>
-                <p class="large-text">Texto grande</p>
+
+        <!-- 2do Contenedor con 5 frames -->
+        <div class="frame-container">
+            <?php foreach ($nextFiveProducts as $product): ?>
+            <div class="frame">
+                <div class="image-container">
+                    <img src="<?php echo $product['imagen_url']; ?>" alt="<?php echo $product['nombre']; ?>" class="product-image">
+                </div>
+                <div class="text-frame">
+                    <p class="small-text"><?php echo $product['categoria']; ?></p>
+                    <p class="large-text"><?php echo $product['nombre']; ?></p>
+                </div>
+                <div class="price-button-frame">
+                    <button class="add-button" data-product-id="<?php echo $product['id_producto']; ?>">Añadir</button>
+                    <p class="price-text"><?php echo number_format($product['precio'], 2); ?>$</p>
+                </div>
             </div>
-            <div class="price-button-frame">
-                <button class="add-button">Añadir</button>
-                <p class="price-text">0,00$</p>
-            </div>
+            <?php endforeach; ?>
         </div>
-        <div class="frame">
-            <div class="image-container"></div>
-            <div class="text-frame">
-                <p class="small-text">Texto pequeño</p>
-                <p class="large-text">Texto grande</p>
-            </div>
-            <div class="price-button-frame">
-                <button class="add-button">Añadir</button>
-                <p class="price-text">0,00$</p>
-            </div>
+    <?php endif; ?>
+
+    <!-- Contenedor global para el quantity-frame -->
+    <div id="global-quantity-frame" style="display: none;">
+        <div class="quantity-frame">
+            <button class="quantity-button" onclick="decreaseQuantity()">-</button>
+            <span id="quantity">1</span>
+            <button class="quantity-button" onclick="increaseQuantity()">+</button>
         </div>
-        <div class="frame">
-            <div class="image-container"></div>
-            <div class="text-frame">
-                <p class="small-text">Texto pequeño</p>
-                <p class="large-text">Texto grande</p>
-            </div>
-            <div class="price-button-frame">
-                <button class="add-button">Añadir</button>
-                <p class="price-text">0,00$</p>
-            </div>
-        </div>
-        <div class="frame">
-            <div class="image-container"></div>
-            <div class="text-frame">
-                <p class="small-text">Texto pequeño</p>
-                <p class="large-text">Texto grande</p>
-            </div>
-            <div class="price-button-frame">
-                <button class="add-button">Añadir</button>
-                <p class="price-text">0,00$</p>
-            </div>
-        </div>
-    </div>
-    <!-- 3er Contenedor con 5 frames -->
-    <div class="frame-container">
-        <div class="frame">
-            <div class="image-container"></div>
-            <div class="text-frame">
-                <p class="small-text">Texto pequeño</p>
-                <p class="large-text">Texto grande</p>
-            </div>
-            <div class="price-button-frame">
-                <button class="add-button">Añadir</button>
-                <p class="price-text">0,00$</p>
-            </div>
-        </div>
-        <div class="frame">
-            <div class="image-container"></div>
-            <div class="text-frame">
-                <p class="small-text">Texto pequeño</p>
-                <p class="large-text">Texto grande</p>
-            </div>
-            <div class="price-button-frame">
-                <button class="add-button">Añadir</button>
-                <p class="price-text">0,00$</p>
-            </div>
-        </div>
-        <div class="frame">
-            <div class="image-container"></div>
-            <div class="text-frame">
-                <p class="small-text">Texto pequeño</p>
-                <p class="large-text">Texto grande</p>
-            </div>
-            <div class="price-button-frame">
-                <button class="add-button">Añadir</button>
-                <p class="price-text">0,00$</p>
-            </div>
-        </div>
-        <div class="frame">
-            <div class="image-container"></div>
-            <div class="text-frame">
-                <p class="small-text">Texto pequeño</p>
-                <p class="large-text">Texto grande</p>
-            </div>
-            <div class="price-button-frame">
-                <button class="add-button">Añadir</button>
-                <p class="price-text">0,00$</p>
-            </div>
-        </div>
-        <div class="frame">
-            <div class="image-container"></div>
-            <div class="text-frame">
-                <p class="small-text">Texto pequeño</p>
-                <p class="large-text">Texto grande</p>
-            </div>
-            <div class="price-button-frame">
-                <button class="add-button">Añadir</button>
-                <p class="price-text">0,00$</p>
-            </div>
-        </div>
+        <button class="confirm-button">Confirmar</button>
     </div>
 
     <!-- Footer -->

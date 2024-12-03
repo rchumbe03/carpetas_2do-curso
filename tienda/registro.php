@@ -4,12 +4,12 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Carrito</title>
-    <link rel="stylesheet" href="styles/styles_l.css">
+    <link rel="stylesheet" href="styles/styles_r.css">
 </head>
 <body>
     <header class="header">
         <!-- Logo -->
-        <a href="index.html">
+        <a href="index.php">
             <div class="header-logo">
                 <img src="img/logo.png" alt="logo">
             </div>
@@ -22,9 +22,15 @@
         </div>
         <div class="container-form">
             <div class="text-box-form">
-                Iniciar sesión
+                Crear una cuenta
             </div>
             <div class="container-content">
+                <div class="frame-label">
+                    <div class="label-text">
+                        Nombre
+                    </div>
+                    <input type="text" class="input-text">
+                </div>
                 <div class="frame-label">
                     <div class="label-text">
                         Correo electrónico
@@ -38,11 +44,14 @@
                     <input type="text" class="input-text">
                 </div>
                 <div class="text-box-right">
-                    ¿Has olvidado la contraseña?
+                    Al menos 8 caracteres
                 </div>
-                <button class="submit-button">Iniciar sesión</button>
+                <div class="text-box-right">
+                    Al menos un número del 1 al 9
+                </div>
+                <button class="submit-button">Registrarse</button>
                 <div class="text-box-center">
-                    <a href="registro.html">Crear una cuenta</a>
+                    <a href="registro.html">Inicia sesión</a>
                 </div>
             </div>
         </div>

@@ -10,21 +10,21 @@
     <header class="header">
         <div class="container">
             <!-- Logo -->
-            <a href="index.html">
+            <a href="index.php">
                 <div class="header-logo">
                     <img src="img/logo.png" alt="logo">
                 </div>
             </a>
     
             <div class="table">
-                <a href="index.html">Inicio</a>
-                <a href="carrito.html">Carrito</a>
-                <a href="login.html">Login</a>
-                <a href="registro.html">Registrate</a>
+                <a href="index.php">Inicio</a>
+                <a href="carrito.php">Carrito</a>
+                <a href="login.php">Login</a>
+                <a href="registro.php">Registrate</a>
             </div>
     
             <!-- Barra de búsqueda -->
-            <form class="search-bar" method="GET" action="index.html">
+            <form class="search-bar" method="GET" action="carrito.php">
                 <input type="text" name="search" placeholder="Buscar...">
             </form>
         </div>
