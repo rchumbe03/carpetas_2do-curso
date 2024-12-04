@@ -1,3 +1,55 @@
+<?php
+include 'funcion_php/conexion.php';
+
+$correo = $contrasena = "";
+$correoErr = $contrasenaErr = $loginErr = "";
+
+if ($_SERVER["REQUEST_METHOD"] == "POST") {
+    // Validar correo electrónico
+    if (empty($_POST["correo"])) {
+        $correoErr = "El correo electrónico es obligatorio";
+    } else {
+        $correo = test_input($_POST["correo"]);
+        if (!filter_var($correo, FILTER_VALIDATE_EMAIL)) {
+            $correoErr = "Formato de correo electrónico inválido";
+        }
+    }
+
+    // Validar contraseña
+    if (empty($_POST["contrasena"])) {
+        $contrasenaErr = "La contraseña es obligatoria";
+    } else {
+        $contrasena = test_input($_POST["contrasena"]);
+    }
+
+    // Si no hay errores, verificar en la base de datos
+    if (empty($correoErr) && empty($contrasenaErr)) {
+        $sql = "SELECT * FROM Usuario WHERE correo = '$correo'";
+        $result = $conn->query($sql);
+
+        if ($result->num_rows > 0) {
+            $row = $result->fetch_assoc();
+            if (password_verify($contrasena, $row['contrasena'])) {
+                // Redirigir a index.php con un mensaje de éxito
+                header("Location: index.php");
+                exit();
+            } else {
+                $loginErr = "Correo electrónico o contraseña incorrectos";
+            }
+        } else {
+            $loginErr = "Correo electrónico o contraseña incorrectos";
+        }
+    }
+}
+
+function test_input($data) {
+    $data = trim($data);
+    $data = stripslashes($data);
+    $data = htmlspecialchars($data);
+    return $data;
+}
+?>
+
 <!DOCTYPE html>
 <html lang="es">
 <head>
@@ -9,7 +61,7 @@
 <body>
     <header class="header">
         <!-- Logo -->
-        <a href="index.php">
+        <a href="login.php">
             <div class="header-logo">
                 <img src="img/logo.png" alt="logo">
             </div>
@@ -25,24 +77,38 @@
                 Iniciar sesión
             </div>
             <div class="container-content">
-                <div class="frame-label">
-                    <div class="label-text">
-                        Correo electrónico
+                <?php if (isset($_GET['message']) && $_GET['message'] == 'registro_exitoso'): ?>
+                    <div class="success-message">
+                        Registro realizado con éxito
                     </div>
-                    <input type="text" class="input-text">
-                </div>
-                <div class="frame-label">
-                    <div class="label-text">
-                        Contraseña
+                <?php endif; ?>
+                <?php if (!empty($loginErr)): ?>
+                    <div class="error-message">
+                        <?php echo $loginErr; ?>
                     </div>
-                    <input type="text" class="input-text">
-                </div>
-                <div class="text-box-right">
-                    ¿Has olvidado la contraseña?
-                </div>
-                <button class="submit-button">Iniciar sesión</button>
+                <?php endif; ?>
+                <form class="frame-container" method="post" action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]);?>">
+                    <div class="frame-label">
+                        <div class="label-text">
+                            Correo electrónico
+                        </div>
+                        <input type="text" class="input-text" name="correo" value="<?php echo $correo;?>">
+                        <span class="error"><?php echo $correoErr;?></span>
+                    </div>
+                    <div class="frame-label">
+                        <div class="label-text">
+                            Contraseña
+                        </div>
+                        <input type="password" class="input-text" name="contrasena">
+                        <span class="error"><?php echo $contrasenaErr;?></span>
+                    </div>
+                    <div class="text-box-right">
+                        ¿Has olvidado la contraseña?
+                    </div>
+                    <button type="submit" class="submit-button">Iniciar sesión</button>
+                </form>
                 <div class="text-box-center">
-                    <a href="registro.html">Crear una cuenta</a>
+                    <a href="registro.php">Crear una cuenta</a>
                 </div>
             </div>
         </div>
